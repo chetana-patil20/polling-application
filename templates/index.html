@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polling App</title><style>
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f5f7fb;color:#202536;margin:0}
+main{max-width:850px;margin:48px auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{margin:0 0 8px}.muted{color:#667085}.btn{display:inline-block;background:#f5b900;color:#201b00;padding:11px 16px;border-radius:9px;text-decoration:none;font-weight:bold;border:0;cursor:pointer}
+.card{background:white;border:1px solid #e4e7ec;border-radius:14px;padding:20px;margin-top:16px;box-shadow:0 4px 14px #172b4d0b}
+.flash{padding:12px 14px;border-radius:8px;margin:12px 0;background:#e8f5e9}.flash.error{background:#ffebee}.poll-link{color:#2456a6;text-decoration:none;font-weight:bold}
+</style></head><body><main>
+<div class="top"><div><h1>Quick Polls</h1><p class="muted">Create a poll and collect votes.</p></div><a class="btn" href="{{ url_for('create_poll') }}">+ Create poll</a></div>
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+{% if polls.empty %}<section class="card"><h2>No polls yet</h2><p class="muted">Create your first poll to get started.</p></section>
+{% else %}{% for p_id, poll in polls.iterrows() %}<section class="card"><h2>{{ poll['question'] }}</h2><p class="muted">Options: {{ poll['option1'] }}, {{ poll['option2'] }}, {{ poll['option3'] }}</p><a class="poll-link" href="{{ url_for('show_poll', p_id=p_id) }}">View poll and vote →</a></section>{% endfor %}{% endif %}
+</main></body></html>

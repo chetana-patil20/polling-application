@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ poll.question }} - Poll</title><style>
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f5f7fb;color:#202536;margin:0}
+main{max-width:720px;margin:48px auto;padding:24px}.card{background:white;border:1px solid #e4e7ec;border-radius:14px;padding:24px}
+.option{display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid #e4e7ec;border-radius:10px;padding:14px;margin:12px 0}
+button{background:#f5b900;color:#201b00;padding:11px 16px;border-radius:9px;font-weight:bold;border:0;cursor:pointer}.muted{color:#667085}
+.flash{padding:12px 14px;border-radius:8px;margin:12px 0;background:#e8f5e9}.flash.error{background:#ffebee}
+</style></head><body><main><p><a href="{{ url_for('index') }}">← All polls</a></p>
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+<section class="card"><h1>{{ poll.question }}</h1><p class="muted">Choose one option. This browser can vote once per poll (basic cookie check).</p>
+{% for n in [1,2,3] %}<div class="option"><div><strong>{{ poll['option' ~ n] }}</strong><br><span class="muted">{{ poll['votes' ~ n] | int }} vote(s)</span></div>
+<form method="post" action="{{ url_for('vote', p_id=p_id, option_number=n) }}"><button type="submit">Vote</button></form></div>{% endfor %}
+</section></main></body></html>

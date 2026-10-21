@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Create a Poll</title>
+<style>*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f5f7fb;color:#202536;margin:0}
+main{max-width:650px;margin:48px auto;padding:24px}.card{background:white;border:1px solid #e4e7ec;border-radius:14px;padding:24px}
+label{display:block;font-weight:bold;margin:16px 0 6px}input{width:100%;padding:12px;border:1px solid #cfd4dc;border-radius:8px;font-size:16px}
+button{background:#f5b900;color:#201b00;padding:11px 16px;border-radius:9px;font-weight:bold;border:0;cursor:pointer;margin-top:20px}
+.flash{padding:12px 14px;border-radius:8px;margin:12px 0;background:#e8f5e9}.flash.error{background:#ffebee}</style></head><body><main>
+<p><a href="{{ url_for('index') }}">← All polls</a></p>{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+<section class="card"><h1>Create a poll</h1><form method="post" action="{{ url_for('create_poll') }}">
+<label for="question">Poll question</label><input id="question" name="question" required maxlength="250" value="{{ question }}">
+{% for n in [1,2,3] %}<label for="option{{ n }}">Option {{ n }}</label><input id="option{{ n }}" name="option{{ n }}" required maxlength="120" value="{{ options[n-1] }}">{% endfor %}
+<button type="submit">Create poll</button></form></section></main></body></html>
